@@ -9,6 +9,9 @@
         }
     ],
     "minimum-stability": "dev",
+    "repositories": [
+        { "type": "composer", "url": "http://packages.x-shells.org" }
+    ],
     "require": {
 		"php":	">=5.3.0",
         "slaxweb/logger": "dev-master"
