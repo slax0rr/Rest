@@ -48,7 +48,7 @@ class Client
      *
      * @var object
      */
-    protected $_logger = null;
+    //protected $_logger = null;
     /**
      * Config
      *
@@ -68,7 +68,7 @@ class Client
         $this->setSocketTimeout = $this->_config['availability_default_timeout'];
 
         // initiate the logger
-        $this->_logger = new \SlaxWeb\Logger\Logger($this->_config['log_file']);
+        //$this->_logger = new \SlaxWeb\Logger\Logger($this->_config['log_file']);
     }
 
     /**
@@ -220,34 +220,34 @@ class Client
                     return $result;
                 } else {
                     // wrong status
-                    $this->_logger->logMessage(
+                    /*$this->_logger->logMessage(
                         LVL_WARNING,
                         "REST call return status was {returnCode}\nWith response: {response}",
                         array (
                             'returnCode'    =>  $code,
                             'response'      =>  $result
                         )
-                    );
+					);*/
                     return false;
                 }
             } catch (Exception $exception) {
                 // something went wrong
-                $this->_logger->logMessage(
+                /*$this->_logger->logMessage(
                     LVL_ERROR,
                     "REST call failed, response:\n{response}\nStatus code: {returnCode}",
                     array (
                         'returnCode'    =>  $code,
                         'response'      =>  $result
                     )
-                );
+				);*/
                 return false;
             }
         } else {
             // url or payload are not set
-            $this->_logger->logMessage(
+            /*$this->_logger->logMessage(
                 LVL_CRITICAL,
                 'No data set to process'
-            );
+			);*/
             return false;
         }
     }
