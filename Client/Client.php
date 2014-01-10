@@ -44,12 +44,6 @@ class Client
      */
     protected $_socketTimeout = 0;
     /**
-     * Logger
-     *
-     * @var object
-     */
-    //protected $_logger = null;
-    /**
      * Config
      *
      * @var array
@@ -66,9 +60,6 @@ class Client
 
         // set the default socket timeout for availability checks
         $this->setSocketTimeout = $this->_config['availability_default_timeout'];
-
-        // initiate the logger
-        //$this->_logger = new \SlaxWeb\Logger\Logger($this->_config['log_file']);
     }
 
     /**
@@ -219,40 +210,25 @@ class Client
                 if($status !== false) {
                     return $result;
                 } else {
-                    // wrong status
-                    /*$this->_logger->logMessage(
-                        LVL_WARNING,
-                        "REST call return status was {returnCode}\nWith response: {response}",
-                        array (
-                            'returnCode'    =>  $code,
-                            'response'      =>  $result
-                        )
-					);*/
-                    return false;
+					// wrong status
+					$msg = "REST call return status was {returnCode}\nWith response: {response}\n";
+					$context = array("returnCode" => $code, "response" => $result);
+					throw new SlaxWebException($msg, "REST_CALL_INVALID_STATUS", $context);
                 }
             } catch (Exception $exception) {
-                // something went wrong
-                /*$this->_logger->logMessage(
-                    LVL_ERROR,
-                    "REST call failed, response:\n{response}\nStatus code: {returnCode}",
-                    array (
-                        'returnCode'    =>  $code,
-                        'response'      =>  $result
-                    )
-				);*/
-                return false;
+				// something went wrong
+				$msg = "REST call failed, response:\n{response}\nStatus code: {returnCode}";
+				$context = array("returnCode" => $code, "response" => $result);
+				throw new SlaxWebException($msg, "REST_CALL_FAILED", $context);
             }
         } else {
-            // url or payload are not set
-            /*$this->_logger->logMessage(
-                LVL_CRITICAL,
-                'No data set to process'
-			);*/
-            return false;
+			// url or payload are not set
+			$msg = "No data set to process";
+			throw new SlaxWebException($msg, "REST_CALL_NO_DATA");
         }
     }
 }
 
 /**
- * End of file ./Library/Rest/Client/Client.php
+ * End of file ./Rest/Client/Client.php
  */
