@@ -1,6 +1,8 @@
 <?php
 namespace SlaxWeb\Rest\Client;
 
+use SlaxWeb\Exception\SlaxWebException;
+
 /**
  * Rest library helper handling client calls
  *
