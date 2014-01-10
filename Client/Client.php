@@ -215,18 +215,18 @@ class Client
 					// wrong status
 					$msg = "REST call return status was {returnCode}\nWith response: {response}\n";
 					$context = array("returnCode" => $code, "response" => $result);
-					throw new SlaxWebException($msg, "REST_CALL_INVALID_STATUS", $context);
+					throw new SlaxWebException($msg, 10001, $context);
                 }
             } catch (Exception $exception) {
 				// something went wrong
 				$msg = "REST call failed, response:\n{response}\nStatus code: {returnCode}";
 				$context = array("returnCode" => $code, "response" => $result);
-				throw new SlaxWebException($msg, "REST_CALL_FAILED", $context);
+				throw new SlaxWebException($msg, 10002, $context);
             }
         } else {
 			// url or payload are not set
 			$msg = "No data set to process";
-			throw new SlaxWebException($msg, "REST_CALL_NO_DATA");
+			throw new SlaxWebException($msg, 10003);
         }
     }
 }
