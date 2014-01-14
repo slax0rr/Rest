@@ -213,13 +213,13 @@ class Client
                     return $result;
                 } else {
 					// wrong status
-					$msg = "REST call return status was {returnCode}\nWith response: {response}\n";
+					$msg = "REST call return status was {returnCode}\n{response}\n";
 					$context = array("returnCode" => $code, "response" => $result);
 					throw new SlaxWebException($msg, 10001, $context);
                 }
             } catch (Exception $exception) {
 				// something went wrong
-				$msg = "REST call failed, response:\n{response}\nStatus code: {returnCode}";
+				$msg = "REST call failed, response:\n({response})\nStatus code: <{returnCode}>";
 				$context = array("returnCode" => $code, "response" => $result);
 				throw new SlaxWebException($msg, 10002, $context);
             }
