@@ -193,12 +193,14 @@ class Client
             // setup curl for the call
             $curlHandle = curl_init();
             curl_setopt($curlHandle, CURLOPT_URL, $this->_url);
-            curl_setopt($curlHandle,CURLOPT_HTTPHEADER,$headers);
-            curl_setopt($curlHandle,CURLOPT_RETURNTRANSFER,true);
-            curl_setopt($curlHandle,CURLOPT_SSL_VERIFYHOST,false);
-            curl_setopt($curlHandle,CURLOPT_SSL_VERIFYPEER,false);
-            curl_setopt($curlHandle,CURLOPT_POST,true);
-            curl_setopt($curlHandle,CURLOPT_POSTFIELDS,$this->_payload);
+            curl_setopt($curlHandle, CURLOPT_HTTPHEADER,$headers);
+            curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER,true);
+            curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST,false);
+			curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER,false);
+			curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 2);
+			curl_setopt($curlHandle, CURLOPT_TIMEOUT, 2);
+            curl_setopt($curlHandle, CURLOPT_POST,true);
+            curl_setopt($curlHandle, CURLOPT_POSTFIELDS,$this->_payload);
             // everything is set, try and exec the request
             try {
                 // get the result and response http code
