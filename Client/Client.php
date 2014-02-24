@@ -61,7 +61,7 @@ class Client
         $this->_config = $config;
 
         // set the default socket timeout for availability checks
-        $this->setSocketTimeout = $this->_config['availability_default_timeout'];
+        $this->_socketTimeout = $this->_config['availability_default_timeout'];
     }
 
     /**
@@ -197,8 +197,8 @@ class Client
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER,true);
             curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST,false);
 			curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER,false);
-			curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 2);
-			curl_setopt($curlHandle, CURLOPT_TIMEOUT, 2);
+			curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, $this->_socketTimeout);
+			curl_setopt($curlHandle, CURLOPT_TIMEOUT, $this->_socketTimeout);
             curl_setopt($curlHandle, CURLOPT_POST,true);
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS,$this->_payload);
             // everything is set, try and exec the request
