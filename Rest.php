@@ -39,7 +39,7 @@ class Rest
     public function __construct($mode = 0)
     {
         // load the config
-        require_once 'Config/RestConfig.php';
+        require 'Config/RestConfig.php';
         $this->_config = $config;
 
         switch ($mode) {
