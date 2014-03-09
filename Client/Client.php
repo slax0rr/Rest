@@ -122,8 +122,6 @@ class Client
         // get current error_reporting
         $errorReporting = error_reporting();
         error_reporting(0);
-        $oldSocketTimeout = ini_get('default_socket_timeout');
-        ini_set("default_socket_timeout", $this->_socketTimeout);
         $status = true;
         try {
             $url = $this->_url;
@@ -134,7 +132,13 @@ class Client
                 $socketHandle = 0;
 
                 // try and open the socket
-                $socketHandle = fsockopen($urlData['host'], $urlData['port'], $errNumber, $errString);
+				$socketHandle = fsockopen(
+					$urlData['host'],
+					$urlData['port'],
+					$errNumber,
+					$errString,
+					$this->_socketTimeout
+				);
                 if ($socketHandle !== false) {
                     $path = '';
                     // set the path and query string
@@ -158,11 +162,11 @@ class Client
                     fclose($socketHandle);
                 } else {
                     // couldn't open socket
-                    return false;
+                    $status = false;
                 }
             } else {
                 // url is not in correct form
-                return false;
+                $status = false;
             }
         } catch (Exception $exception) {
             // something went wrong
@@ -170,7 +174,6 @@ class Client
         }
         // re-set old error_reporting
         error_reporting($errorReporting);
-        ini_set("default_socket_timeout", $oldSocketTimeout);
         return $status;
     }
 
