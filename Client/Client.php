@@ -102,7 +102,7 @@ class Client
      */
     public function setSocketTimeout($seconds)
     {
-        if (is_int($seconds) === true) {
+        if (is_numeric($seconds) === true) {
             $this->_socketTimeout = $seconds;
             return true;
         } else {
