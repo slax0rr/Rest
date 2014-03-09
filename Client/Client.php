@@ -135,7 +135,7 @@ class Client
 
                 // try and open the socket
                 $socketHandle = fsockopen($urlData['host'], $urlData['port'], $errNumber, $errString);
-                if ($socket !== 0) {
+                if ($socketHandle !== 0) {
                     $path = '';
                     // set the path and query string
                     if (isset($urlData['path']) === true) {
