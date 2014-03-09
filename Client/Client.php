@@ -42,9 +42,9 @@ class Client
      *
      * Wait this many seconds when checking for url availability
      *
-     * @var int
+     * @var float
      */
-    protected $_socketTimeout = 0;
+    protected $_socketTimeout = 0.0;
     /**
      * Config
      *
@@ -61,7 +61,7 @@ class Client
         $this->_config = $config;
 
         // set the default socket timeout for availability checks
-        $this->_socketTimeout = $this->_config['availability_default_timeout'];
+        $this->_socketTimeout = (float)$this->_config['availability_default_timeout'];
     }
 
     /**
@@ -103,7 +103,7 @@ class Client
     public function setSocketTimeout($seconds)
     {
         if (is_numeric($seconds) === true) {
-            $this->_socketTimeout = $seconds;
+            $this->_socketTimeout = (float)$seconds;
             return true;
         } else {
             // not int
