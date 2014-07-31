@@ -132,13 +132,13 @@ class Client
                 $socketHandle = 0;
 
                 // try and open the socket
-				$socketHandle = fsockopen(
-					$urlData['host'],
-					$urlData['port'],
-					$errNumber,
-					$errString,
-					$this->_socketTimeout
-				);
+                $socketHandle = fsockopen(
+                    $urlData['host'],
+                    $urlData['port'],
+                    $errNumber,
+                    $errString,
+                    $this->_socketTimeout
+                );
                 if ($socketHandle !== false) {
                     $path = '';
                     // set the path and query string
@@ -163,14 +163,23 @@ class Client
                 } else {
                     // couldn't open socket
                     $status = false;
+                    $msg = "Availability check failed!\nError string: {errString}\nError number: {errNumber}\n";
+                    $context = array("errString" => $errString, "errNumber" => $errNumber);
+                    throw new SlaxWebException($msg, 10004, $context);
                 }
             } else {
                 // url is not in correct form
                 $status = false;
+                $msg = "Url missing or in incorrect form. URL: {url}\n";
+                $context = array("url" => $url);
+                throw new SlaxWebException($msg, 10005, $context);
             }
-        } catch (Exception $exception) {
+        } catch (Exception $e) {
             // something went wrong
             $status = false;
+            $msg = "Error occured while trying to check URL availability.\nError: {errorString}\nCode: {errorCode}\n";
+            $context = array("errorString" => $e->getMessage(), "errorCode" => $e->getCode());
+            throw new SlaxWebException($msg, 10006, $context);
         }
         // re-set old error_reporting
         error_reporting($errorReporting);
@@ -182,7 +191,8 @@ class Client
      *
      * @return mixed Returns the array recieved from the REST call or false on failure
      */
-    public function process() {
+    public function process()
+    {
         if ($this->_url !== '' && $this->_payload !== '') {
             // set headers
             $headers = array (
@@ -196,14 +206,14 @@ class Client
             // setup curl for the call
             $curlHandle = curl_init();
             curl_setopt($curlHandle, CURLOPT_URL, $this->_url);
-            curl_setopt($curlHandle, CURLOPT_HTTPHEADER,$headers);
-            curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER,true);
-            curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST,false);
-			curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER,false);
-			curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, $this->_socketTimeout);
-			curl_setopt($curlHandle, CURLOPT_TIMEOUT, $this->_socketTimeout);
-            curl_setopt($curlHandle, CURLOPT_POST,true);
-            curl_setopt($curlHandle, CURLOPT_POSTFIELDS,$this->_payload);
+            curl_setopt($curlHandle, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, $this->_socketTimeout);
+            curl_setopt($curlHandle, CURLOPT_TIMEOUT, $this->_socketTimeout);
+            curl_setopt($curlHandle, CURLOPT_POST, true);
+            curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $this->_payload);
             // everything is set, try and exec the request
             try {
                 // get the result and response http code
@@ -214,24 +224,24 @@ class Client
 
                 // check the response code
                 $status = (intval($code / 100) === 2) ? true : false;
-                if($status !== false) {
+                if ($status !== false) {
                     return $result;
                 } else {
-					// wrong status
-					$msg = "REST call return status was {returnCode}\n{response}\n";
-					$context = array("returnCode" => $code, "response" => $result);
-					throw new SlaxWebException($msg, 10001, $context);
+                    // wrong status
+                    $msg = "REST call return status was {returnCode}\n{response}\n";
+                    $context = array("returnCode" => $code, "response" => $result);
+                    throw new SlaxWebException($msg, 10001, $context);
                 }
             } catch (Exception $exception) {
-				// something went wrong
-				$msg = "REST call failed, response:\n({response})\nStatus code: <{returnCode}>";
-				$context = array("returnCode" => $code, "response" => $result);
-				throw new SlaxWebException($msg, 10002, $context);
+                // something went wrong
+                $msg = "REST call failed, response:\n({response})\nStatus code: <{returnCode}>";
+                $context = array("returnCode" => $code, "response" => $result);
+                throw new SlaxWebException($msg, 10002, $context);
             }
         } else {
-			// url or payload are not set
-			$msg = "No data set to process";
-			throw new SlaxWebException($msg, 10003);
+            // url or payload are not set
+            $msg = "No data set to process";
+            throw new SlaxWebException($msg, 10003);
         }
     }
 }
