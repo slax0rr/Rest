@@ -22,10 +22,5 @@
 			"SlaxWeb\\Rest": ""
 		}
 	},
-	"extra":	{
-		"branch-alias": {
-			"dev-master": "0.1.0-dev"
-		}
-	},
     "target-dir": "SlaxWeb/Rest"
 }
