@@ -2,7 +2,7 @@
     "name": "slaxweb/rest",
     "description": "REST calls library",
     "license": "GPLv3",
-    version: "0.1"
+    "version": "0.1.0",
     "authors": [
         {
             "name": "Tomaz Lovrec",
@@ -24,7 +24,7 @@
 	},
 	"extra":	{
 		"branch-alias": {
-			"dev-master": "0.1"
+			"dev-master": "0.1.0-dev"
 		}
 	},
     "target-dir": "SlaxWeb/Rest"
