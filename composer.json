@@ -9,13 +9,9 @@
             "email": "tomaz.lovrec@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "repositories": [
-        { "type": "composer", "url": "http://packages.x-shells.org" }
-    ],
     "require": {
 		"php":	">=5.3.0",
-        "slaxweb/exception": "dev-master"
+        "slaxweb/exception": "~0.1"
     },
 	"autoload":	{
 		"psr-0": {
